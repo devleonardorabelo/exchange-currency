@@ -48,8 +48,8 @@ const CurrencyInput: FC<Props> = ({
     >
       <CurrencyFormat
         value={value}
-        decimalSeparator=","
-        thousandSeparator="."
+        decimalSeparator="."
+        thousandSeparator=","
         decimalScale={2}
         onValueChange={handleOnChangeValue}
         className="grow outline-none bg-transparent"
@@ -67,7 +67,7 @@ const CurrencyInput: FC<Props> = ({
       {isExpanded && (
         <OutsideClickHandler onOutsideClick={() => setIsExpanded(false)}>
           <div
-            className="absolute -left-[1px] -right-[1px] top-10 bg-gray-900 border-gray-700 border rounded-b-lg flex flex-col max-h-72 overflow-auto"
+            className="absolute -left-[1px] -right-[1px] top-10 bg-gray-900 border-gray-700 border rounded-b-lg flex flex-col max-h-72 overflow-auto z-10"
             data-testid="currency-input-list"
           >
             {currencyList.map(({ code }) => (
