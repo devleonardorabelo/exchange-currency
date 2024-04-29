@@ -8,9 +8,16 @@ import CurrencyInput from './CurrencyInput';
 describe('<CurrencyInput />', () => {
   test('renders CurrencyInput with default value', () => {
     const onSelectMock = jest.fn();
+    const onChangeValue = jest.fn();
+
     const currency = 'USD';
     const { getByTestId } = render(
-      <CurrencyInput value={currency} onSelect={onSelectMock} />
+      <CurrencyInput
+        currency={currency}
+        onSelectCurrency={onSelectMock}
+        onChangeValue={onChangeValue}
+        value={0}
+      />
     );
     const button = getByTestId('currency-input');
     expect(button).toBeInTheDocument();
@@ -19,8 +26,15 @@ describe('<CurrencyInput />', () => {
   test('renders currency input list when expanded', () => {
     const currency = 'USD';
     const onSelectMock = jest.fn();
+    const onChangeValue = jest.fn();
+
     const { getByTestId, queryByTestId } = render(
-      <CurrencyInput value={currency} onSelect={onSelectMock} />
+      <CurrencyInput
+        currency={currency}
+        onSelectCurrency={onSelectMock}
+        onChangeValue={onChangeValue}
+        value={0}
+      />
     );
 
     const currencyInput = getByTestId('currency-input');
@@ -44,8 +58,15 @@ describe('<CurrencyInput />', () => {
   test('changes value when another currency is selected', () => {
     const initialValue = 'USD';
     const onSelectMock = jest.fn();
+    const onChangeValue = jest.fn();
+
     const { getByTestId, rerender } = render(
-      <CurrencyInput value={initialValue} onSelect={onSelectMock} />
+      <CurrencyInput
+        currency={initialValue}
+        onSelectCurrency={onSelectMock}
+        onChangeValue={onChangeValue}
+        value={0}
+      />
     );
 
     const currencyInput = getByTestId('currency-input');
@@ -67,7 +88,14 @@ describe('<CurrencyInput />', () => {
     const newValue = currencyList[0].code;
 
     // rerendering the component with the new value
-    rerender(<CurrencyInput value={newValue} onSelect={onSelectMock} />);
+    rerender(
+      <CurrencyInput
+        currency={newValue}
+        onSelectCurrency={onSelectMock}
+        onChangeValue={onChangeValue}
+        value={0}
+      />
+    );
 
     // getting the currencyInput again after rerender
     const updatedCurrencyInput = getByTestId('currency-input');

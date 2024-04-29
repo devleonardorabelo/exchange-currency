@@ -1,44 +1,68 @@
 import { FC, useCallback, useState } from 'react';
+import CurrencyFormat from 'react-currency-format';
 
 import currencyList from '../utils/currencyList';
-
 interface Props {
-  value: string;
-  onSelect: (currency: string) => void;
+  value: number;
+  currency: string;
+  onSelectCurrency: (currency: string) => void;
+  onChangeValue: (value: number) => void;
 }
 
-const CurrencyInput: FC<Props> = ({ value, onSelect }) => {
+const CurrencyInput: FC<Props> = ({
+  value,
+  currency,
+  onSelectCurrency,
+  onChangeValue,
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const onSelectCurrency = useCallback(
-    (currency: string) => {
-      setIsExpanded(false);
-      onSelect(currency);
+  const handleOnChangeValue = useCallback(
+    (values: CurrencyFormat.Values) => {
+      let newValue = values.floatValue;
+      if (!values.value) newValue = 0;
+      onChangeValue(newValue);
     },
-    [onSelect]
+    [onChangeValue]
+  );
+
+  const handleOnSelectCurrency = useCallback(
+    (selectedCurrency: string) => {
+      setIsExpanded(false);
+      onSelectCurrency(selectedCurrency);
+    },
+    [onSelectCurrency]
   );
 
   return (
-    <div className="relative rounded border border-gray-400">
+    <div className="relative rounded-lg border border-gray-700 flex py-1 px-2">
+      <CurrencyFormat
+        value={value}
+        decimalSeparator=","
+        thousandSeparator="."
+        decimalScale={2}
+        onValueChange={handleOnChangeValue}
+        className="grow outline-none bg-transparent"
+      />
       <button
-        className="h-8 w-full"
+        className="h-8 inline-block"
         onClick={() => setIsExpanded((previousState) => !previousState)}
         data-testid="currency-input"
       >
-        {value}
+        {currency}
       </button>
       {isExpanded && (
         <div
           className="absolute left-0 top-8 bg-white border-gray-400 flex flex-col max-h-72 overflow-auto"
           data-testid="currency-input-list"
         >
-          {currencyList.map((currency) => (
+          {currencyList.map(({ code }) => (
             <button
-              key={currency.code}
+              key={code}
               className="py-4 px-6"
-              onClick={() => onSelectCurrency(currency.code)}
+              onClick={() => handleOnSelectCurrency(code)}
             >
-              {currency.code}
+              {code}
             </button>
           ))}
         </div>
