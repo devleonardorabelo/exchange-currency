@@ -2,18 +2,21 @@ import { useQuery } from '@tanstack/react-query';
 
 import { getPairConversion } from '../resources';
 
-const useGetPairConversion = ({ from, to }: { from: string; to: string }) => {
-  const { data, isLoading, error, isFetching, refetch } = useQuery({
-    queryKey: ['pairConversion', from, to],
-    queryFn: () => getPairConversion(from, to),
+const useGetPairConversion = ({
+  base,
+  target,
+}: {
+  base: string;
+  target: string;
+}) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ['pairConversion', base, target],
+    queryFn: () => getPairConversion(base, target),
   });
 
   return {
     data: data?.data,
-    isFetching,
-    isLoading,
-    error,
-    refetch,
+    ...rest,
   };
 };
 
