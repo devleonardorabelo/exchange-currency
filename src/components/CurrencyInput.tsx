@@ -1,5 +1,7 @@
+import { ArrowDown2, ArrowUp2 } from 'iconsax-react';
 import { FC, useCallback, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 import currencyList from '../utils/currencyList';
 interface Props {
@@ -16,6 +18,7 @@ const CurrencyInput: FC<Props> = ({
   onChangeValue,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleOnChangeValue = useCallback(
     (values: CurrencyFormat.Values) => {
@@ -34,8 +37,15 @@ const CurrencyInput: FC<Props> = ({
     [onSelectCurrency]
   );
 
+  const ExpandedIcon = () => {
+    const Icon = isExpanded ? ArrowUp2 : ArrowDown2;
+    return <Icon size={16} />;
+  };
+
   return (
-    <div className="relative rounded-lg border border-gray-700 flex py-1 px-2">
+    <div
+      className={`relative rounded-lg border p-2 border-gray-700 bg-gray-900 flex ${isFocused && 'border-blue-500'} ${isExpanded && 'rounded-b-none'}`}
+    >
       <CurrencyFormat
         value={value}
         decimalSeparator=","
@@ -43,29 +53,34 @@ const CurrencyInput: FC<Props> = ({
         decimalScale={2}
         onValueChange={handleOnChangeValue}
         className="grow outline-none bg-transparent"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
       />
       <button
-        className="h-8 inline-block"
+        className="border-l pl-2 border-gray-700 flex items-center gap-1"
         onClick={() => setIsExpanded((previousState) => !previousState)}
         data-testid="currency-input"
       >
         {currency}
+        <ExpandedIcon />
       </button>
       {isExpanded && (
-        <div
-          className="absolute left-0 top-8 bg-white border-gray-400 flex flex-col max-h-72 overflow-auto"
-          data-testid="currency-input-list"
-        >
-          {currencyList.map(({ code }) => (
-            <button
-              key={code}
-              className="py-4 px-6"
-              onClick={() => handleOnSelectCurrency(code)}
-            >
-              {code}
-            </button>
-          ))}
-        </div>
+        <OutsideClickHandler onOutsideClick={() => setIsExpanded(false)}>
+          <div
+            className="absolute -left-[1px] -right-[1px] top-10 bg-gray-900 border-gray-700 border rounded-b-lg flex flex-col max-h-72 overflow-auto"
+            data-testid="currency-input-list"
+          >
+            {currencyList.map(({ code }) => (
+              <button
+                key={code}
+                className="p-2 inline-block text-start"
+                onClick={() => handleOnSelectCurrency(code)}
+              >
+                {code}
+              </button>
+            ))}
+          </div>
+        </OutsideClickHandler>
       )}
     </div>
   );
