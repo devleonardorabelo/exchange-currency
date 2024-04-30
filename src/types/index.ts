@@ -9,4 +9,5 @@ export interface CurrencyDetailInfo {
   code: string;
   name: string;
   country: string;
+  flag: string;
 }

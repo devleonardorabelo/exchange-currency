@@ -15,6 +15,7 @@ const initialState: PairConversionState = {
       code: 'BRL',
       country: 'Brazil',
       name: 'Real',
+      flag: 'BR',
     },
   },
 };

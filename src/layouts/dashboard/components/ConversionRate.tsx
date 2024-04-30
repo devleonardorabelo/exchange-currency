@@ -1,4 +1,4 @@
-import { ArrowUp2, ArrowDown2, ElementEqual } from 'iconsax-react';
+import { ArrowUp2, ArrowDown2, Minus } from 'iconsax-react';
 import { useSelector } from 'react-redux';
 import colors from 'tailwindcss/colors';
 
@@ -21,8 +21,8 @@ const ConversionRate = () => {
     }
 
     if (rate === 1) {
-      Left = <ElementEqual size={size} color={colors.gray[700]} />;
-      Right = <ElementEqual size={size} color={colors.gray[700]} />;
+      Left = <Minus size={size} color={colors.gray[700]} />;
+      Right = <Minus size={size} color={colors.gray[700]} />;
     }
 
     if (type == 'base') {
