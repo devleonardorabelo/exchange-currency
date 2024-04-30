@@ -1,8 +1,10 @@
 import { ArrangeHorizontal } from 'iconsax-react';
 import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { useGetPairConversion } from '../../../api/hooks';
 import CurrencyInput from '../../../components/CurrencyInput';
+import { addPairConversion } from '../../../store/slices/pairConversionSlice';
 import { currencyList } from '../../../utils';
 
 const Converter = () => {
@@ -10,6 +12,8 @@ const Converter = () => {
   const [targetCurrency, setTargetCurrency] = useState('USD');
   const [baseValue, setBaseValue] = useState(1);
   const [targetValue, setTargetValue] = useState(0);
+
+  const dispatch = useDispatch();
 
   const { data, error } = useGetPairConversion({
     base: baseCurrency,
@@ -66,11 +70,17 @@ const Converter = () => {
     }
   }, [baseValue, data, targetValue]);
 
+  useEffect(() => {
+    if (data) {
+      dispatch(addPairConversion(data));
+    }
+  }, [data, dispatch]);
+
   if (error) return <div>error</div>;
 
   return (
-    <div className="bg-gray-900 text-gray-200 p-2 flex flex-col gap-8">
-      <span className="text-xl font-semibold">Exchange Rate</span>
+    <div className="bg-gray-900 text-gray-200 flex flex-col gap-8 p-4">
+      <span className="text-xl font-semibold">Converter</span>
       <div>
         <div className="inline-flex flex-col gap-4">
           <CurrencyInput
@@ -103,7 +113,7 @@ const Converter = () => {
       </div>
       {baseCurrencyInfo && targetCurrencyInfo && (
         <div>
-          <div className="inline-flex flex-col border-y border-gray-800 py-4">
+          <div className="inline-flex flex-col border-b border-gray-800 pb-4">
             <span className="text-gray-400">
               1 {baseCurrencyInfo.name} equals
             </span>
