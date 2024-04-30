@@ -1,5 +1,6 @@
 import ConversionRate from './components/ConversionRate';
 import Converter from './components/Converter';
+import CurrencyDetails from './components/CurrencyDetails';
 
 const Dashboard = () => {
   return (
@@ -8,7 +9,9 @@ const Dashboard = () => {
         <Converter />
         <ConversionRate />
       </div>
-      <div className="bg-gray-900 inline-flex p-4 rounded-lg grow"></div>
+      <div className="bg-gray-900 rounded-lg grow">
+        <CurrencyDetails />
+      </div>
     </div>
   );
 };

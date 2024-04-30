@@ -1,9 +1,10 @@
 import { combineReducers } from '@reduxjs/toolkit';
 
-import pairConversionSlice from './slices/pairConversionSlice';
+import { currencyDetailSlice, pairConversionSlice } from './slices';
 
 const rootReducer = combineReducers({
   pairConversionSlice,
+  currencyDetailSlice,
 });
 
 export default rootReducer;

@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 
 import { useGetPairConversion } from '../../../api/hooks';
 import CurrencyInput from '../../../components/CurrencyInput';
-import { addPairConversion } from '../../../store/slices/pairConversionSlice';
-import { currencyList } from '../../../utils';
+import { addPairConversion, setCurrentCurrency } from '../../../store/slices';
+import { currencyList, getCurrencySymbol } from '../../../utils';
 
 const Converter = () => {
   const [baseCurrency, setBaseCurrency] = useState('BRL');
@@ -73,6 +73,16 @@ const Converter = () => {
   useEffect(() => {
     if (data) {
       dispatch(addPairConversion(data));
+      dispatch(
+        setCurrentCurrency({
+          currency: data.base_code,
+          symbol: getCurrencySymbol('en-US', data.base_code),
+          value: data.conversion_rate,
+          info: currencyList.find(
+            (eachCurrency) => eachCurrency.code === data.base_code
+          ),
+        })
+      );
     }
   }, [data, dispatch]);
 
