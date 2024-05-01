@@ -1,9 +1,8 @@
 import '@testing-library/jest-dom';
 import { render, fireEvent } from '@testing-library/react';
 
-import currencyList from '../utils/currencyList';
-
-import CurrencyInput from './CurrencyInput';
+import { currencyList } from '../../utils';
+import CurrencyInput from '../CurrencyInput';
 
 describe('<CurrencyInput />', () => {
   test('renders CurrencyInput with default value', () => {
