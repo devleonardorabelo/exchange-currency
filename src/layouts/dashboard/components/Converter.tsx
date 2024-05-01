@@ -89,7 +89,7 @@ const Converter = () => {
   if (error) return <div>error</div>;
 
   return (
-    <div className="bg-gray-900 text-gray-200 flex flex-col gap-8 p-4">
+    <div className="flex flex-col gap-8 p-4">
       <span className="text-xl font-semibold">Converter</span>
       <div>
         <div className="inline-flex flex-col gap-4">
