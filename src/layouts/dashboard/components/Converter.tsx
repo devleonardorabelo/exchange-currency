@@ -92,7 +92,7 @@ const Converter = () => {
     <div className="flex flex-col gap-8 p-4">
       <span className="text-xl font-semibold">Converter</span>
       <div>
-        <div className="inline-flex flex-col gap-4">
+        <div className="inline-flex w-full flex-col gap-4">
           <CurrencyInput
             onSelectCurrency={(newCurrency) =>
               onSelectCurrency(newCurrency, 'base')
