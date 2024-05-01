@@ -5,7 +5,6 @@ import { CurrencyDetail } from '../../types';
 interface PairConversionState {
   currentCurrency: CurrencyDetail;
 }
-
 const initialState: PairConversionState = {
   currentCurrency: {
     currency: 'BRL',
@@ -13,8 +12,8 @@ const initialState: PairConversionState = {
     value: 1,
     info: {
       code: 'BRL',
+      name: 'Brazilian Real',
       country: 'Brazil',
-      name: 'Real',
       flag: 'BR',
     },
   },
