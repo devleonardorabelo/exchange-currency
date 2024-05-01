@@ -7,9 +7,12 @@ interface Props extends InputHTMLAttributes<HTMLInputElement> {
 
 const TextInput: FC<Props> = ({ Icon, ...rest }) => {
   return (
-    <div className="relative">
+    <div className="relative" data-testid="text-input">
       {Icon && (
-        <span className="absolute top-0 bottom-0 flex items-center left-3">
+        <span
+          data-testid="text-input-icon"
+          className="absolute top-0 bottom-0 flex items-center left-3"
+        >
           <Icon size={16} />
         </span>
       )}
