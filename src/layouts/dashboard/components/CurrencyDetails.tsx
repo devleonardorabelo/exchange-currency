@@ -1,10 +1,11 @@
-import { ArrowUp, ArrowDown, Minus, Icon } from 'iconsax-react';
-import { useMemo } from 'react';
+import { ArrowUp, ArrowDown, Minus, Icon, SearchNormal } from 'iconsax-react';
+import { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Flag from 'react-world-flags';
 import colors from 'tailwindcss/colors';
 
 import { useGetCurrency } from '../../../api/hooks';
+import { TextInput } from '../../../components';
 import { RootState } from '../../../store';
 import { CurrencyDetail } from '../../../types';
 import { currencyList, getCurrencySymbol } from '../../../utils';
@@ -13,6 +14,8 @@ const CurrencyDetails = () => {
   const currentCurrency = useSelector(
     (state: RootState) => state.currencyDetailSlice.currentCurrency
   );
+
+  const [search, setSearch] = useState('');
 
   const { data } = useGetCurrency(currentCurrency.currency);
 
@@ -31,8 +34,16 @@ const CurrencyDetails = () => {
         ),
       });
     }
-    return conversionRatesList;
-  }, [data]);
+
+    const matchSearch = (value = '') =>
+      value.toLowerCase().includes(search.toLowerCase());
+
+    const filteredList = conversionRatesList.filter(
+      (rate) => matchSearch(rate.currency) || matchSearch(rate.info?.country)
+    );
+
+    return filteredList;
+  }, [data, search]);
 
   const renderArrowIndicator = (rate: number) => {
     let Indicator: {
@@ -63,7 +74,11 @@ const CurrencyDetails = () => {
         <div>
           <span className="text-3xl font-medium">
             {currentCurrency.currency}{' '}
-            <span className="text-gray-700">{currentCurrency.symbol}</span>
+            <span className="text-gray-700">
+              {currentCurrency.symbol !== currentCurrency.currency &&
+                currentCurrency.symbol}
+              1
+            </span>
           </span>
           <div className="flex gap-2">
             <Flag code={currentCurrency.info?.flag} height={15} width={20} />
@@ -75,6 +90,13 @@ const CurrencyDetails = () => {
             {data?.time_last_update_utc}
           </span>
         </div>
+      </div>
+      <div className="px-4 pt-4">
+        <TextInput
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search currency..."
+          Icon={SearchNormal}
+        />
       </div>
       <div className="flex flex-wrap w-full gap-2 overflow-auto p-4">
         {data &&
