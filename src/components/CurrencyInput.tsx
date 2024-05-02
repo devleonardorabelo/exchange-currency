@@ -1,5 +1,5 @@
 import { ArrowDown2, ArrowUp2, SearchNormal } from 'iconsax-react';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import CurrencyFormat from 'react-currency-format';
 import OutsideClickHandler from 'react-outside-click-handler';
 import Flag from 'react-world-flags';
@@ -38,6 +38,10 @@ const CurrencyInput: FC<Props> = ({
     },
     [onSelectCurrency]
   );
+
+  useEffect(() => {
+    if (!isExpanded) setSearch('');
+  }, [isExpanded]);
 
   const ExpandedIcon = () => {
     const Icon = isExpanded ? ArrowUp2 : ArrowDown2;
